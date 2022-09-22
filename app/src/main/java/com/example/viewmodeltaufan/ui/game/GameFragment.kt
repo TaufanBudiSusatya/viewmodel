@@ -15,27 +15,24 @@ class GameFragment : Fragment() {
     private var currentScrambledWord = "test"
 
 
-    // Binding object instance with access to the views in the game_fragment.xml layout
+
+    // Memberikan akses tata lentak pada gamefragment.xml
     private lateinit var binding: GameFragmentBinding
 
-    // Create a ViewModel the first time the fragment is created.
-    // If the fragment is re-created, it receives the same GameViewModel instance created by the
-    // first fragment
+    // membuat view model
+    //menerima class dari gameviewmodel yang sudah di buat
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout XML file and return a binding object instance
-        binding = GameFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //membuat perintah untuk tombol kirim dan lewati
 
-        // Setup a click listener for the Submit and Skip buttons.
-        binding.submit.setOnClickListener { onSubmitWord() }
         binding.skip.setOnClickListener { onSkipWord() }
         // Update the UI
         updateNextWordOnScreen()
@@ -45,8 +42,8 @@ class GameFragment : Fragment() {
     }
 
     /*
-    * Checks the user's word, and updates the score accordingly.
-    * Displays the next scrambled word.
+    * memerika jawaban dan memberikan nilai
+    * serta menampilkan kata yang acak
     */
     private fun onSubmitWord() {
         currentScrambledWord = getNextScrambledWord()
@@ -59,9 +56,8 @@ class GameFragment : Fragment() {
     }
 
     /*
-     * Skips the current word without changing the score.
-     * Increases the word count.
-     */
+      * perintah untuk melewati kata
+      */
     private fun onSkipWord() {
         currentScrambledWord = getNextScrambledWord()
         currentWordCount++
@@ -71,7 +67,7 @@ class GameFragment : Fragment() {
     }
 
     /*
-     * Gets a random word for the list of words and shuffles the letters in it.
+     * membuat kata acak untuk daftar kata
      */
     private fun getNextScrambledWord(): String {
         val tempWord = allWordsList.random().toCharArray()
@@ -80,24 +76,20 @@ class GameFragment : Fragment() {
     }
 
     /*
-     * Re-initializes the data in the ViewModel and updates the views with the new data, to
-     * restart the game.
+     * Inisialisasi ulang data di ViewModel dan perbarui tampilan dengan data baru, untuk
+     * mulai ulang permainan.
      */
     private fun restartGame() {
         setErrorTextField(false)
         updateNextWordOnScreen()
     }
 
-    /*
-     * Exits the game.
-     */
+    //perintah untuk keluar dari game
     private fun exitGame() {
         activity?.finish()
     }
 
-    /*
-    * Sets and resets the text field error status.
-    */
+
     private fun setErrorTextField(error: Boolean) {
         if (error) {
             binding.textField.isErrorEnabled = true
@@ -108,9 +100,6 @@ class GameFragment : Fragment() {
         }
     }
 
-    /*
-     * Displays the next scrambled word on screen.
-     */
     private fun updateNextWordOnScreen() {
         binding.textViewUnscrambledWord.text = currentScrambledWord
     }
